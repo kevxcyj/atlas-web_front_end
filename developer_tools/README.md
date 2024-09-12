@@ -1,1 +1,15 @@
-This is the read me for the project
+DEVELOPER TOOLS
+
+This project is an overview of how to use DEV tools.
+
+Concepts that are covered:
+- What Developter tools in your brower are
+- How to open the Developer Tools on Chrome, Firefox, Safari, and Edge.
+- How to use the elements tab to edit HTML and CSS
+- How to audit a page according to the tips suggested by Lighthouse
+- How to create and run snippets on a page
+- How to get information about files and server configurations
+- How to block requests
+- How to know how much JavaScript or CSS is used on a page
+- How to detect 404 issues
+- How to move elements on a webpage
