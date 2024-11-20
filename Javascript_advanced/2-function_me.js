@@ -8,6 +8,7 @@ function welcomeMessage(fullName) {
   let alex = welcomeMessage("Alex");
   let fred = welcomeMessage("Fred");
 
+  // Testing
   guillaume();
   alex();
   fred();
