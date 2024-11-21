@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <title>Task 0</title>
+        <style>
+            .remove-cell {
+                background-color: orange;
+                cursor: pointer;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+    </head>
+        <body>
+            <script type="appication/javascript">
+                function createFamilyTree() {
+                    $('<table>').appendTo('body')
+                        .append($('<thead>').append(
+                            $('<tr>').append(
+                                $('<th>').text('Firstname'),
+                                $('<th>').text('Lastname')
+                            )
+                        ))
+                        .append($('<tbody>'));
+                }
+    
+                function addNewMember(firstName, lastName) {
+                    $('table tbody').append(
+                        $('<tr>').append(
+                            $('<td>').text(firstName),
+                            $('<td>').text(lastName),
+                            $('<td>').addClass('remove-cell').text('(x)')
+                        )
+                    );
+    
+                    $('.remove-cell:last').on('click', function() {
+                        $(this).parent().remove();
+                    });
+                }
+
+                function createForm() {
+                    $('<form>').insertBefore('table')
+                        .append($('<input>').attr({type: 'text', placeholder: 'First Name'}))
+                        .append($('<input>').attr({type: 'text', placeholder: 'Last Name'}).prop('disabled', true))
+                        .append($('<select>')
+                            .append($('<option>').val('after').text('After'))
+                            .append($('<option>').val('before').text('Before')))
+                        .append($('<input>').attr({type: 'submit', value: 'Add Member'}));
+    
+                    $('form select').on('change', function() {
+                        $('form input:nth-of-type(2)').prop('disabled', $(this).val() !== 'before');
+                    });
+    
+                    $('form').on('submit', function(e) {
+                        e.preventDefault();
+                        let firstName = $('form input:first').val();
+                        let lastName = $('form input:nth-of-type(2)').val();
+                        let position = $('form select').val();
+                        addNewMember(firstName, lastName, position);
+                        $(this)[0].reset(); // Reset form fields
+                    });
+                }
+    
+                createFamilyTree();
+                createForm();
+    
+                addNewMember('Guillaume', 'Salva');
+                addNewMember('Arielle', 'Snizt');
+                addNewMember('Fanette', 'Snizt');
+                addNewMember('Gerard', 'Snizt');
+                addNewMember('Victor', 'Salva');
+        </script>
+    </body>
+</html>
