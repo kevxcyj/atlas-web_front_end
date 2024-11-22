@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <title>Task 11</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+    </head>
+        <body>
+            <script type="appication/javascript">
+                function addPostRow(data) {
+                    $('<p>').appendTo('body')
+                        .append($('<span>').text(`Post created with id ${data.id}, title: ${data.title}, author: ${data.author}`));
+                }
+    
+                function listPosts() {
+                    $.get('/posts', function(response) {
+                        if (Array.isArray(response)) {
+                            response.forEach(post => {
+                                addPostRow(post);
+                            });
+                        }
+                    })
+                    .fail(function() {
+                        alert("Server Error");
+                    });
+                }
+    
+                function buildForm() {
+                    $('<form>').appendTo('body')
+                        .append($('<div>').append(
+                            $('<label>').text('Author').for('author'),
+                            $('<input>').attr({type: 'text', id: 'author'})
+                        ))
+                        .append($('<div>').append(
+                            $('<label>').text('Title').for('title'),
+                            $('<textarea>').attr({id: 'title'})
+                        ))
+                        .append($('<input>').attr({type: 'submit', value: 'Submit'}))
+                        .on('submit', function(e) {
+                            e.preventDefault();
+                            sendForm($(this));
+                        });
+                }
+    
+                function sendForm(form) {
+                    form.after('<p>About to send the query to the API</p>');
+                    
+                    const formData = {
+                        title: form.find('#title').val(),
+                        author: form.find('#author').val()
+                    };
+    
+                    $.post('/posts', formData, function(response) {
+                        addPostRow(response);
+                    })
+                    .fail(function() {
+                        alert("Error sending the POST query");
+                    });
+                }
+    
+                $(document).ready(function() {
+                    listPosts();
+                    buildForm();
+                });
+                
+        </script>
+    </body>
+</html>
