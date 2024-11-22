@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <title>Task 0</title>
+        <style>
+            .remove-cell {
+                background-color: orange;
+                cursor: pointer;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+    </head>
+        <body>
+            <script type="appication/javascript">
+                function createSearchForm() {
+                    $('<form>').appendTo('body')
+                        .append($('<input>').attr({type: 'text'}))
+                        .append($('<input>').attr({type: 'submit', value: 'Search'}))
+                        .on('submit', function(e) {
+                            e.preventDefault();
+                            let searchTerm = $(this).find('input[type="text"]').val();
+                            queryWikipedia(searchTerm);
+                        });
+                    
+                    $('<ul>').appendTo('body');
+                }
+    
+                function addNewArticle(id, title, snippet) {
+                    $('<li>').appendTo('body ul')
+                        .append($('<p>').html(`<span>${id} -</span> <b>${title}</b>`))
+                        .append($('<p>').html(snippet));
+                }
+    
+                function queryWikipedia(searchTerm) {
+                    $.ajax({
+                        url: 'https://en.wikipedia.org/w/api.php',
+                        data: {
+                            action: 'queryk,m ',
+                            list: 'search',
+                            srsearch: searchTerm,
+                            format: 'json'
+                        },
+                        dataType: 'jsonp',
+                        success: function(data) {
+                            if (data.query.search.length > 0) {
+                                $('body ul').empty();
+                                data.query.search.forEach(result => {
+                                    addNewArticle(result.pageid, result.title, result.snippet);
+                                });
+                            } else {
+                                $('body ul').empty().append('<li>No results found.</li>');
+                            }
+                        },
+                        error: function() {
+                            console.error('Error fetching Wikipedia data');
+                            $('body ul').empty().append('<li>Error fetching data. Please try again.</li>');
+                        }
+                    });
+                }
+    
+                createSearchForm();
+        </script>
+    </body>
+</html>
