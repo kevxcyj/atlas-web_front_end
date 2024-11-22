@@ -3,12 +3,6 @@
     <head>
         <meta charset="utf-8" />
         <title>Task 0</title>
-        <style>
-            .remove-cell {
-                background-color: orange;
-                cursor: pointer;
-            }
-        </style>
         <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
     </head>
         <body>
@@ -36,12 +30,14 @@
                     $.ajax({
                         url: 'https://en.wikipedia.org/w/api.php',
                         data: {
-                            action: 'queryk,m ',
+                            action: 'query',
                             list: 'search',
                             srsearch: searchTerm,
-                            format: 'json'
+                            format: 'json',
+                            origin: '#',
+                            sroffset: 'offset'
                         },
-                        dataType: 'jsonp',
+                        
                         success: function(data) {
                             if (data.query.search.length > 0) {
                                 $('body ul').empty();
