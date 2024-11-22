@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <title>Task 0</title>
+        <style>
+            #pagination {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+            }
+            #pagination li {
+                float: left;
+                margin-left: 10px;
+                cursor: pointer;
+            }
+            #pagination li.active {
+                font-weight: bold;
+            }
+            .loading {
+            opacity: 0.2;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+    </head>
+        <body>
+            <script type="appication/javascript">
+                function createSearchForm() {
+                    $('<form>').appendTo('body')
+                        .append($('<input>').attr({type: 'text'}))
+                        .append($('<input>').attr({type: 'submit', value: 'Search'}))
+                        .on('submit', function(e) {
+                            e.preventDefault();
+                            let searchTerm = $(this).find('input[type="text"]').val();
+                            queryWikipedia(searchTerm);
+                        });
+                    
+                    $('<ul>').appendTo('body');
+                    $('<ul id="pagination">').appendTo('body');
+                }
+    
+                function addNewArticle(id, title, snippet) {
+                    $('<li>').appendTo('body ul')
+                        .append($('<p>').html(`<span>${id} -</span> <b>${title}</b>`))
+                        .append($('<p>').html(snippet));
+                }
+
+                function displayLoading(isLoading) {
+                    const $ul = $('body ul:first');
+                    if (isLoading) {
+                        $ul.wrap('<div class="loading"></div>');
+                    } else {
+                        $ul.unwrap();
+                    }
+                }
+    
+                function queryWikipedia(searchTerm) {
+                    $.ajax({
+                        url: 'https://en.wikipedia.org/w/api.php',
+                        data: {
+                            action: 'query',
+                            list: 'search',
+                            sroffset: 'offset',
+                            srsearch: searchTerm,
+                            format: 'json'
+                            origin: '#'
+                        },
+                        success: function(data) {
+                            if (data.query.search.length > 0) {
+                                $('body ul').empty();
+                                data.query.search.forEach(result => {
+                                    addNewArticle(result.pageid, result.title, result.snippet);
+                                });
+                            } else {
+                                $('body ul').empty().append('<li>No results found.</li>');
+                            }
+                        },
+                        error: function() {
+                            console.error('Error fetching Wikipedia data');
+                            $('body ul').empty().append('<li>Error fetching data. Please try again.</li>');
+                        }
+                    });
+                }
+
+                function buildPagination(totalItems, itemsPerPage, currentOffset) {
+                    $('#pagination').empty();
+                    const totalPages = Math.ceil(totalItems / itemsPerPage);
+                    const currentPage = Math.floor(currentOffset / itemsPerPage) + 1;
+    
+                    for (let i = 1; i <= totalPages; i++) {
+                        const $item = $('<li>').text(i);
+                        if (i === currentPage) {
+                            $item.addClass('active');
+                        }
+                        $item.on('click', function() {
+                            const newOffset = (i - 1) * itemsPerPage;
+                            queryWikipedia($('body input[type="text"]').val(), newOffset);
+                        });
+                        $('#pagination').append($item);
+                    }
+                }
+    
+                createSearchForm();
+        </script>
+    </body>
+</html>
