@@ -8,7 +8,10 @@
         <body>
             <script type="appication/javascript">
                 function addPostRow(data) {
-                    $('<p>').appendTo('body')
+                    $('<p>').attr('id', `row-${data.id}`).appendTo('body')
+                        .append($('<span>').text('(delete)').on('click', function() {
+                            deletePost(data.id);
+                        }))
                         .append($('<span>').text(`Post created with id ${data.id}, title: ${data.title}, author: ${data.author}`));
                 }
     
@@ -22,6 +25,19 @@
                     })
                     .fail(function() {
                         alert("Server Error");
+                    });
+                }
+
+                function deletePost(id) {
+                    $.ajax({
+                        url: `/posts/${id}`,
+                        method: 'DELETE',
+                        success: function() {
+                            $(`#row-${id}`).remove();
+                        },
+                        error: function() {
+                            alert("Post was not deleted");
+                        }
                     });
                 }
     
