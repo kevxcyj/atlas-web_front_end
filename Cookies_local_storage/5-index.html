@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h1>Available Items:</h1>
+    <ul id="availableItems"></ul>
+
+    <h1>Your Cart:</h1>
+    <p id="cartMessage"></p>
+    <ul id="cartList"></ul>
+
+    <script>
+        const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+
+
+        if (!('localStorage' in window)) {
+            alert('Sorry, your browser does not support Web Storage. Try again with a better one.');
+        } else {
+            createStore();
+        }
+
+        function createStore() {
+            const ul = document.createElement('ul');
+            ul.id = 'availableItems';
+
+            availableItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.onclick = () => addItemToCart(item);
+                ul.appendChild(li);
+            });
+
+            document.body.appendChild(ul);
+        }
+
+            const cartMessage = document.getElementById('cartMessage');
+            const cartList = document.getElementById('cartList');
+
+            if (localStorage.length > 0) {
+                cartMessage.textContent = `You previously had ${localStorage.length} items in your cart.`;
+            }
+
+                Object.keys(localStorage).forEach(key => {
+                    const item = localStorage.getItem(key);
+                    if (item === 'true') {
+                        const li = document.createElement('li');
+                        li.textContent = key;
+                        cartList.appendChild(li);
+                    }
+                });
+
+        function displayCart() {
+            const cartMessage = document.getElementById('cartMessage');
+            const cartList = document.getElementById('cartList');
+
+            if (localStorage.length > 0) {
+                cartMessage.textContent = `You previously had ${localStorage.length} items in your cart.`;
+            }
+            
+        function addItemToCart(item) {
+            localStorage.setItem(item, 'true');
+        }
+    }
+    </script>
+</body>
+</html>
