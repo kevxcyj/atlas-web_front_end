@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 0</title>
+</head>
+<body>
+        <h2>Login to the website</h2>
+                <input type="text" id="firstname" placeholder="Firstname">
+                <input type="email" id="email" placeholder="Email">
+                    <button type="button" class="btn btn-primary" id="log-in-button">Log me in</button>
+                    <button type="button" class="btn btn-secondary" id="showCookies">Show the cookies</button>
+        <script>
+            function setCookies() {
+                const firstname = document.getElementById('firstname').value;
+                const email = document.getElementById('email').value;
+
+                const expirationDate = new Date();
+                expirationDate.setDate(expirationDate.getDate() + 10);
+                document.cookie = "firstname=" + encodeURIComponent(firstname) + "; path=/; expires=" + expirationDate.toUTCString();
+                document.cookie = "email=" + encodeURIComponent(email) + "; path=/; expires=" + expirationDate.toUTCString();
+            }
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }       
+
+            function showCookies() {
+                const Cookies = document.cookie;
+
+                const email = getCookie("email");
+                const firstName = getCookie("firstname");
+                $('body').append(`<p>Email: ${email} - Firstname: ${firstName}</p>`);
+                }
+        </script>
+</body>
+</html>
