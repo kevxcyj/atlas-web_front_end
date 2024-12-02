@@ -4,67 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            background-color: #f2f2f2;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        p {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Available Items:</h1>
-    <ul id="availableItems"></ul>
-
-    <h1>Your Cart:</h1>
-    <p id="cartMessage"></p>
-    <ul id="cartList"></ul>
-
+    <h1>Shopping Cart</h1>
+    <div id="store"></div>
     <script>
         const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
 
 
-        if (!('localStorage' in window)) {
-            alert('Sorry, your browser does not support Web Storage. Try again with a better one.');
+        if (typeof(Storage) === "undefined") {
+            alert("Sorry, your browser does not support Web storage. Try again with a better one.");
         } else {
             createStore();
+            displayCart();
         }
 
-        function createStore() {
-            const ul = document.createElement('ul');
-            ul.id = 'availableItems';
 
+        function addItemToCart(item) {
+            localStorage.setItem(item, true);
+            displayCart();
+        }
+
+
+        function createStore() {
+            const storeContainer = document.getElementById('store');
+            const ul = document.createElement('ul');
+            
+            
             availableItems.forEach(item => {
                 const li = document.createElement('li');
                 li.textContent = item;
-                li.onclick = () => addItemToCart(item);
+                  
+                li.addEventListener('click', () => addItemToCart(item));
                 ul.appendChild(li);
             });
 
-            document.body.appendChild(ul);
+            storeContainer.appendChild(ul);
         }
 
-            const cartMessage = document.getElementById('cartMessage');
-            const cartList = document.getElementById('cartList');
-
-            if (localStorage.length > 0) {
-                cartMessage.textContent = `You previously had ${localStorage.length} items in your cart.`;
-            }
-
-                Object.keys(localStorage).forEach(key => {
-                    const item = localStorage.getItem(key);
-                    if (item === 'true') {
-                        const li = document.createElement('li');
-                        li.textContent = key;
-                        cartList.appendChild(li);
-                    }
-                });
 
         function displayCart() {
-            const cartMessage = document.getElementById('cartMessage');
-            const cartList = document.getElementById('cartList');
+            const cartItems = Object.keys(localStorage);
 
-            if (localStorage.length > 0) {
-                cartMessage.textContent = `You previously had ${localStorage.length} items in your cart.`;
+            if (cartItems.length === 0) {
+                return;
             }
-            
-        function addItemToCart(item) {
-            localStorage.setItem(item, 'true');
+
+            let cartMessage = document.querySelector('#cart-message');
+            if (!cartMessage) {
+                cartMessage = document.createElement('p');
+                cartMessage.id = 'cart-message';
+                document.body.appendChild(cartMessage);
+            }
+
+
+            cartMessage.textContent = `You previously had ${cartItems.length} item(s) in your cart.`;
         }
-    }
     </script>
 </body>
 </html>
