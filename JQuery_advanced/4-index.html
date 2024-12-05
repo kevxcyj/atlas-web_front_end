@@ -16,28 +16,15 @@
                                 $('<th>').text('Lastname')
                             )
                         ))
-                        .append($('<tbody>').append(
-                            $('<tr>').append(
-                                $('<td>').text('Guillaume'),
-                                $('<td>').text('Salva')
-                            ),
-                            $('<tr>').append(
-                                $('<td>').text('Paulette'),
-                                $('<td>').text('Salva')
-                            ),
-                            $('<tr>').append(
-                                $('<td>').text('Antoine'),
-                                $('<td>').text('Salva')
-                            )
-                        ));
+                        .append($('<tbody>'));
                 }
+        
                 function replaceFamilyTree() {
                     $('tbody').empty().html('<tr><td>Gerard</td><td>Bonissa</td></tr>');
                 }
-                $(document).ready(function() {
-                    createFamilyTree,
-                    replaceFamilyTree
-                });
+        
+                createFamilyTree();
+                replaceFamilyTree();
         </script>
     </body>
 </html>

@@ -49,10 +49,7 @@
                                 $('body ul').empty().append('<li>No results found.</li>');
                             }
                         },
-                        error: function() {
-                            console.error('Error fetching Wikipedia data');
-                            $('body ul').empty().append('<li>Error fetching data. Please try again.</li>');
-                        }
+                        
                     });
                 }
     

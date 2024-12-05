@@ -26,55 +26,23 @@
                         ))
                         .append($('<tbody>'));
                 }
-    
+                
                 function addNewMember(firstName, lastName) {
                     $('table tbody').append(
                         $('<tr>').append(
                             $('<td>').text(firstName),
                             $('<td>').text(lastName),
-                            $('5
-        <meta name="viewport" content="width=device-width, initial-scale=1"><style>
-            .delete-cell {
-                background-color: orange;
-                cursor: pointer;
-                text-align: center;
-                font-weight: bold;
-            }
-        </style>5
-        <meta name="viewport" content="width=device-width, initial-scale=1"><style>
-            .delete-cell {
-                background-color: orange;
-                cursor: pointer;
-                text-align: center;
-                font-weight: bold;
-            }
-        </style>5
-        <meta name="viewport" content="width=device-width, initial-scale=1"><style>
-            .delete-cell {
-                background-color: orange;
-                cursor: pointer;
-                text-align: center;
-                font-weight: bold;
-            }
-        </style>5
-        <meta name="viewport" content="width=device-width, initial-scale=1"><style>
-            .delete-cell {
-                background-color: orange;
-                cursor: pointer;
-                text-align: center;
-                font-weight: bold;
-            }
-        </style><td>').addClass('remove-cell').text('(x)')
+                            $('<td>').addClass('delete-cell').text('(x)')
                         )
                     );
-    
-                    $('.remove-cell:last').on('click', function() {
+                
+                    $('.delete-cell:last').on('click', function() {
                         $(this).parent().remove();
                     });
                 }
-    
+                
                 createFamilyTree();
-    
+                
                 addNewMember('Guillaume', 'Salva');
                 addNewMember('Arielle', 'Snizt');
                 addNewMember('Fanette', 'Snizt');

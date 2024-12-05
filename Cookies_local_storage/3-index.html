@@ -6,13 +6,12 @@
     <title>Task 3</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
-        #welcomeMessage a {
-        font-weight: normal;
-        font-style: italic;
-        margin-left: 10px;
-        cursor: pointer;
-        text-decoration: none;
-        }
+        .logout-link {
+      font-weight: normal;
+      font-style: italic;
+      margin-left: 10px;
+      cursor: pointer;
+    }
     </style>
 </head>
 <body>
@@ -20,8 +19,12 @@
         <h2>Login to the website</h2>
                 <input type="text" id="firstname" placeholder="Firstname">
                 <input type="email" id="email" placeholder="Email">
-                    <button type="button" class="btn btn-primary" id="log-in-button">Log me in</button>
-                    <button type="button" class="btn btn-secondary" id="showCookies">Show the cookies</button>
+                    <button onclick="setCookies()" class="btn btn-primary" id="log-in-button">Log me in</button>
+                    <button onclick="showCookies()" class="btn btn-secondary" id="showCookies">Show the cookies</button>
+
+                    <div id="welcome-message" style="display:none;">
+                      </div>
+                    
     </div>
         <script>
             function setCookies() {
@@ -30,8 +33,14 @@
 
                 const expirationDate = new Date();
                 expirationDate.setDate(expirationDate.getDate() + 10);
+
+                const expires = "expires=" + expirationDate.toUTCString();
+
+                
                 document.cookie = "firstname=" + encodeURIComponent(firstname) + "; path=/; expires=" + expirationDate.toUTCString();
                 document.cookie = "email=" + encodeURIComponent(email) + "; path=/; expires=" + expirationDate.toUTCString();
+
+                showWelcomeMessageOrForm();
             }
 
             function getCookie(name) {
@@ -51,7 +60,6 @@
                 }
 
             function showForm() {
-                const formContainer = document.getElementById('form-container');
                 const welcomeMessage = document.getElementById('welcome-message');
 
                     if (welcomeMessage) {
@@ -75,22 +83,19 @@
             }
 
             function showWelcomeMessageOrForm() {
-                const firstnameCookie = getCookie("firstname");
-                
-                if (firstnameCookie === '') {
-                    showForm();
+                const firstname = getCookie('firstname');
+                const email = getCookie('email');
+
+
+                if (firstname && email) {
+                    const welcomeMessage = document.getElementById('welcome-message');
+                    welcomeMessage.style.display = 'block';
+                    welcomeMessage.innerHTML = `<h1>Welcome: ${firstname}</h1>
+                        <span class="logout-link" onclick="deleteCookiesAndShowForm()">Logout</span>`;
                 } else {
-                    const welcomeMessage = document.createElement('div');
-                    welcomeMessage.id = 'welcome-message';
-                    welcomeMessage.innerHTML = `Welcome ${firstnameCookie} <a href="#" class="welcome-link" onclick="deleteCookiesAndShowForm()">(logout)</a>`;
-                    
-                    document.body.innerHTML = '';
-                    document.body.appendChild(welcomeMessage);
-                }
+                    showForm();
             }
-
-
-
+        }
         </script>
 </body>
 </html>

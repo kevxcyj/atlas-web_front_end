@@ -35,12 +35,12 @@
 
                 function createForm() {
                     $('<form>').insertBefore('table')
-                        .append($('<input>').attr({type: 'text', placeholder: 'First Name'}))
-                        .append($('<input>').attr({type: 'text', placeholder: 'Last Name'}).prop('disabled', true))
+                        .append($('<input>').attr({type: 'text'}))
+                        .append($('<input>').attr({type: 'text'}))
                         .append($('<select>')
                             .append($('<option>').val('after').text('After'))
                             .append($('<option>').val('before').text('Before')))
-                        .append($('<input>').attr({type: 'submit', value: 'Add Member'}));
+                        .append($('<input>').attr({type: 'submit', value: 'Submit'}));
     
                     $('form select').on('change', function() {
                         $('form input:nth-of-type(2)').prop('disabled', $(this).val() !== 'before');
@@ -57,13 +57,7 @@
                 }
     
                 createFamilyTree();
-                createForm();
-    
-                addNewMember('Guillaume', 'Salva');
-                addNewMember('Arielle', 'Snizt');
-                addNewMember('Fanette', 'Snizt');
-                addNewMember('Gerard', 'Snizt');
-                addNewMember('Victor', 'Salva');
+                createForm(); 
         </script>
     </body>
 </html>

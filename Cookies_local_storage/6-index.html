@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            background-color: #f2f2f2;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        p {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <div id="store"></div>
+    <script>
+        const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+
+
+        if (typeof(Storage) === "undefined") {
+            alert("Sorry, your browser does not support Web storage. Try again with a better one.");
+        } else {
+            createStore();
+            displayCart();
+        }
+
+
+        function addItemToCart(item) {
+            sessionStorage.setItem(item, true);
+            displayCart();
+        }
+
+
+        function createStore() {
+            const storeContainer = document.getElementById('store');
+            const ul = document.createElement('ul');
+            
+            availableItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+        
+                li.addEventListener('click', () => addItemToCart(item));
+                ul.appendChild(li);
+            });
+
+            storeContainer.appendChild(ul);
+        }
+
+
+        function displayCart() {
+            const cartItems = Object.keys(sessionStorage);
+    
+            if (cartItems.length === 0) {
+                return;
+            }
+
+            let cartMessage = document.querySelector('#cart-message');
+            if (!cartMessage) {
+                cartMessage = document.createElement('p');
+                cartMessage.id = 'cart-message';
+                document.body.appendChild(cartMessage);
+            }
+
+            cartMessage.textContent = `You previously had ${cartItems.length} item(s) in your cart.`;
+        }
+    </script>
+</body>
+</html>
+    
